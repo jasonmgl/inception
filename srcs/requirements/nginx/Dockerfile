@@ -1,13 +1,19 @@
 FROM debian:bullseye
 
-RUN apt update -y
-RUN apt upgrade -y
-RUN apt install nginx openssl -y
-RUN rm -rf /var/lib/apt/lists/* # Clean up APT cache
-RUN mkdir /etc/nginx/ssl
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "/etc/nginx/ssl/jmougel.key" -out "/etc/nginx/ssl/jmougel.crt" -subj \
-    "/C=FR/L=Lyon/O=42/OU=student/CN=jmougel.42.fr"
-COPY ./conf/default /etc/nginx/sites-available/default
-COPY ./conf/index.html /var/www/html/
+WORKDIR /home/jmougel/Documents/inception/srcs/nginx
 
+RUN apt update -y && \
+    apt upgrade -y && \
+    apt install nginx openssl gettext -y && \
+    rm -rf /var/lib/apt/lists/* # Clean up APT cache
+
+RUN chmod 755 /var/www/html
+
+COPY ./conf/default.template /etc/nginx/sites-available/default.template
+COPY ./conf/index.template /var/www/html/index.template
+COPY ./script/script.sh /bin/script.sh
+
+RUN chmod +x /bin/script.sh
+
+ENTRYPOINT ["/bin/script.sh"]
 CMD ["nginx", "-g", "daemon off;"]

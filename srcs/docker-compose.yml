@@ -13,7 +13,7 @@ services:
       - 443:443
     networks:
       - inception_network
-    restart: on-failure
+    restart: always
 
 networks:
   inception_network:
