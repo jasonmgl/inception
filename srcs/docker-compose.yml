@@ -1,20 +1,60 @@
 volumes:
-  wp:
+  wordpress:
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jmougel/data/wp
+  mariadb:
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jmougel/data/db
 
 services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    depends_on:
+      - wordpress
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - mariadb:/home/test
+    expose:
+      - 3306
+    networks:
+      - docker-network
+    restart: always
+
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - nginx
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - wordpress:/home/test
+    expose:
+      - 9000
+    networks:
+      - docker-network
+    restart: always
+
   nginx:
     build: ./requirements/nginx
     container_name: nginx
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     volumes:
-      - wp:/var/www/html
+      - wordpress:/var/www/html
     ports:
       - 443:443
     networks:
-      - inception_network
+      - docker-network
     restart: always
 
+
 networks:
-  inception_network:
+  docker-network:
     driver: bridge

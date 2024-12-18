@@ -16,7 +16,7 @@ server {
     ssl_certificate /etc/nginx/ssl/${CERTIF_NAME}.crt;
     ssl_certificate_key /etc/nginx/ssl/${CERTIF_NAME}.key;
 
-    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_protocols TLSv1.2;
 
     location / {
         try_files $uri $uri/ =404;
