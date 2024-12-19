@@ -10,4 +10,4 @@ y
 y
 EOF
 
-exec $@
+exec "$@"

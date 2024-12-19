@@ -34,7 +34,7 @@ services:
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     volumes:
-      - wordpress:/home/test
+      - wordpress:/var/www/html
     expose:
       - 9000
     networks:

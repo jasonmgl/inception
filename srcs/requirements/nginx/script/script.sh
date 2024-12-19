@@ -13,8 +13,4 @@ envsubst '${DOMAIN_NAME} ${CERTIF_NAME}' \
     < /etc/nginx/sites-available/default.template \
     > /etc/nginx/sites-available/default
 
-envsubst '${DOMAIN_NAME} ${CERTIF_NAME}' \
-    < /var/www/html/index.template \
-    > /var/www/html/index.html;
-
 exec "$@"
