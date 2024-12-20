@@ -4,7 +4,7 @@ PWD_CRED = /home/jmougel/Documents/inception/secrets
 
 include $(PWD_CRED)/credentials.txt
 
-re: down up
+re: down fclean up
 
 ps:
 	docker ps -a
@@ -23,9 +23,8 @@ clean:
 	${DOCKER} -f ${DOCKER_FILE} down -v
 
 fclean: clean
-	rm -rf /home/jmougel/data/wp
-	rm -rf /home/jmougel/data/db
-	rm -rf /home/jmougel/data
+	sudo rm -rf /home/jmougel/data/wp
+	sudo rm -rf /home/jmougel/data/db
 	docker system prune -af
 
 .PHONY: up down clean fclean re ps

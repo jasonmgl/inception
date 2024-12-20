@@ -1,13 +1,17 @@
 #!/bin/bash
 
-mysql_secure_installation <<EOF
-y
-new_password
-new_password
-y
-y
-y
-y
-EOF
+mkdir -p /run/mysqls
 
-exec "$@"
+chmod 755 /run/php
+
+# mysql_secure_installation <<EOF
+# y
+# new_password
+# new_password
+# y
+# y
+# y
+# y
+# EOF
+
+exec mysql_secure_installation #"$@"

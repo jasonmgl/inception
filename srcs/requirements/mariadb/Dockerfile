@@ -11,4 +11,4 @@ COPY ./script/script.sh /bin/script.sh
 RUN chmod +x /bin/script.sh
 
 ENTRYPOINT ["bash", "/bin/script.sh"]
-CMD ["mysql_secure"]
+CMD ["mysql"]

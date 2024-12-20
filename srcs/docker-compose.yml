@@ -11,21 +11,6 @@ volumes:
       device: /home/jmougel/data/db
 
 services:
-  mariadb:
-    build: ./requirements/mariadb
-    container_name: mariadb
-    depends_on:
-      - wordpress
-    env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
-    volumes:
-      - mariadb:/home/test
-    expose:
-      - 3306
-    networks:
-      - docker-network
-    restart: always
-
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
@@ -39,11 +24,13 @@ services:
       - 9000
     networks:
       - docker-network
-    restart: always
+    restart: on-failure
 
   nginx:
     build: ./requirements/nginx
     container_name: nginx
+    depends_on:
+      - mariadb
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     volumes:
@@ -52,8 +39,20 @@ services:
       - 443:443
     networks:
       - docker-network
-    restart: always
-
+    restart: on-failure
+      
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - mariadb:/var/lib/mysql
+    expose:
+      - 3306
+    networks:
+      - docker-network
+    restart: on-failure
 
 networks:
   docker-network:
