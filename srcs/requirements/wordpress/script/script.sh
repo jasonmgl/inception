@@ -13,10 +13,11 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 wp --info
-
 wp core download --path=wpclidemo.dev --allow-root
 
-cd wpclidemo.dev && cp -r * ../
+cp -r wpclidemo.dev/* /var/www/html
+rm -rf wpclidemo.dev/
+
 # wp config create --dbname=wpclidemo --dbuser=root --prompt=dbpass --allow-root
 # wp db create --allow-root
 # wp core install \
