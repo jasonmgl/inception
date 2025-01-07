@@ -1,13 +1,15 @@
 volumes:
   wordpress:
+    driver: local
     driver_opts:
-      type: none
       o: bind
+      type: none
       device: /home/jmougel/data/wp
   mariadb:
+    driver: local
     driver_opts:
-      type: none
       o: bind
+      type: none
       device: /home/jmougel/data/db
 
 services:

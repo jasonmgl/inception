@@ -2,19 +2,17 @@
 
 mkdir -p /run/mysqld
 
-chown mysql:mysql /run/mysqld
+chmod 777 /run/mysqld
 
-mysqld &
-
-sleep 5
+bash sleep 10
 
 service mysql start
 
-mysql -e "CREATE DATABASE IF NOT EXISTS 'name';"
-mysql -e "CREATE USER 'jmougel'@'%' IDENTIFIED BY 'root';"
-mysql -e "GRANT ALL PRIVILEGES ON name.* TO 'jmougel'@'%';"
-mysql -uroot -proot -e "ALTER USER 'root'@'mariadb' IDENTIFIED BY 'root';"
+mysql -e "CREATE DATABASE IF NOT EXISTS '${MYSQL_HOST}';"
+mysql -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_USER}';"
+mysql -e "GRANT ALL PRIVILEGES ON ${MYSQL_HOST}.* TO '${MYSQL_USER}'@'%';"
+mysql -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASS} -e "ALTER USER '${MYSQL_ROOT_USER}'@'${MYSQL_HOST}' IDENTIFIED BY '${MYSQL_USER}';"
 mysql -e "FLUSH PRIVILEGES;"
-mysqladmin -uroot -proot shutdown
+mysqladmin -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASS} shutdown
 
-exec "mysqld_safe"
+exec "$1"

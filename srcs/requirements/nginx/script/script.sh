@@ -9,8 +9,8 @@ if [ ! -f "/etc/nginx/ssl/"$CERTIF_NAME".crt" ]; then
         -subj "/C=FR/L=Lyon/O=42/OU=student/CN=$DOMAIN_NAME"
 fi
 
-envsubst '${DOMAIN_NAME} ${CERTIF_NAME}' \
-    < /etc/nginx/sites-available/default.template \
-    > /etc/nginx/sites-available/default
+sed -i -e "s/DOMAIN_NAME/${DOMAIN_NAME}/g" /etc/nginx/sites-available/default
 
-exec "nginx" "-g" "daemon off;"
+sed -i -e "s/CERTIF_NAME/${CERTIF_NAME}/g" /etc/nginx/sites-available/default
+
+exec "$@"

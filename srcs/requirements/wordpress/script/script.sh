@@ -1,33 +1,20 @@
 #!/bin/bash
 
 mkdir -p /run/php
-
 chown www-data:www-data /run/php
 chmod 755 /run/php
-
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
-php wp-cli.phar --info
-
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
-
-wp --info
-wp core download --path=wpclidemo.dev --allow-root
-
-cp -r wpclidemo.dev/* /var/www/html
-rm -rf wpclidemo.dev/
-
-# wp config create --dbname=wpclidemo --dbuser=root --prompt=dbpass --allow-root
-# wp db create --allow-root
-# wp core install \
-#     --url=wpclidemo.dev \
-#     --title="WP-CLI" \
-#     --admin_user=wpcli \
-#     --admin_password=wpcli \
-#     --admin_email=info@wp-cli.org --allow-root
+if [ -f "/var/www/html/wp-config.php" ]; then
+    echo "wp-config.php already exist !"
+else
+    cd /var/www/html
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    chmod +x wp-cli.phar
+    ./wp-cli.phar core download --allow-root
+    ./wp-cli.phar config create --dbname=wordpress --dbuser=user --dbpass=pass --dbhost=mariadb --allow-root
+    ./wp-cli.phar core install --url=mariadb --title=inception --admin_user=admin --admin_password=admin --admin_email=admin@admin.com --allow-root
+fi
 
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 
-exec "/usr/sbin/php-fpm7.4" "-F"
+exec "$@"

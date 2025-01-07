@@ -1,13 +1,7 @@
 DOCKER = docker compose
 DOCKER_FILE = ./srcs/docker-compose.yml
-PWD_CRED = /home/jmougel/Documents/inception/secrets
-
-include $(PWD_CRED)/credentials.txt
 
 re: down fclean up
-
-ps:
-	docker ps -a
 
 up:
 	mkdir -p /home/jmougel/data
@@ -27,4 +21,4 @@ fclean: clean
 	sudo rm -rf /home/jmougel/data/db
 	docker system prune -af
 
-.PHONY: up down clean fclean re ps
+.PHONY: up down clean fclean re
