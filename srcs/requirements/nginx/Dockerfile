@@ -10,6 +10,7 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 RUN chmod 755 /var/www/html
 
 COPY ./conf/default.template /etc/nginx/sites-available/default.template
+
 COPY ./script/script.sh /bin/script.sh
 
 ENTRYPOINT ["dumb-init", "--"]

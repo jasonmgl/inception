@@ -13,4 +13,4 @@ envsubst '${DOMAIN_NAME} ${CERTIF_NAME}' \
     < /etc/nginx/sites-available/default.template \
     > /etc/nginx/sites-available/default
 
-exec "nginx -g daemon off;"
+exec "nginx" "-g" "daemon off;"

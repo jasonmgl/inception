@@ -18,4 +18,4 @@ COPY ./script/script.sh /bin/script.sh
 
 ENTRYPOINT ["dumb-init", "--"]
 
-CMD ["/usr/bin/bash", "/bin/script.sh"]
+CMD ["bash", "/bin/script.sh"]
