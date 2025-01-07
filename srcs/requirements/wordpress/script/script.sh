@@ -30,4 +30,4 @@ rm -rf wpclidemo.dev/
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 
-exec "$@"
+exec "/usr/sbin/php-fpm7.4 -F"

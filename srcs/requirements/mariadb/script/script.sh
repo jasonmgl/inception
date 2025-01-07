@@ -14,4 +14,6 @@ chmod 755 /run/php
 # y
 # EOF
 
-exec mysql_secure_installation #"$@"
+# exec "mysql"
+
+exec mysql_secure_installation
