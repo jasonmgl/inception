@@ -1,32 +1,4 @@
 services:
-  wordpress:
-    build: ./requirements/wordpress
-    container_name: wordpress
-    depends_on:
-      - nginx
-    env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
-    volumes:
-      - wordpress:/var/www/html
-    expose:
-      - 9000
-    networks:
-      - docker-network
-    restart: on-failure
-  nginx:
-    build: ./requirements/nginx
-    container_name: nginx
-    depends_on:
-      - mariadb
-    env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
-    volumes:
-      - wordpress:/var/www/html
-    ports:
-      - 443:443
-    networks:
-      - docker-network
-    restart: on-failure
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
@@ -36,6 +8,30 @@ services:
       - mariadb:/var/lib/mysql
     expose:
       - 3306
+    networks:
+      - docker-network
+    restart: on-failure
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - wordpress:/var/www/html
+    ports:
+      - 443:443
+    networks:
+      - docker-network
+    restart: on-failure
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - wordpress:/var/www/html
+    expose:
+      - 9000
     networks:
       - docker-network
     restart: on-failure
