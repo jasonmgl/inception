@@ -1,7 +1,8 @@
 services:
   mariadb:
-    build: ./requirements/mariadb
-    container_name: mariadb
+    # build: ./requirements/mariadb
+    image: mariadb
+    # container_name: mariadb
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     volumes:
