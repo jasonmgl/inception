@@ -10,7 +10,11 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
+COPY ./conf/wp-config.php /var/www/html/wp-config.php
+
 COPY ./script/script.sh /bin/script.sh
+
+RUN chmod +x /bin/script.sh
 
 ENTRYPOINT ["bash", "/bin/script.sh"]
 
