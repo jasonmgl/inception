@@ -1,33 +1,24 @@
 #!/bin/bash
 
-mkdir -p /run/mysqld
-chown -R www-data:www-data /run/mysqld
-
 mysql --version
 
-mysqld_safe &
+sed -i 's/= 127.0.0.1/= 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+sed -i 's/basedir/port\t\t\t\t\t= 3306\nbasedir/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-sleep 15
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+    mysql_install_db --user=mysql --datadir=/var/lib/mysql
+fi
 
-# mysql -u ${DB_ROOT_USER} -e "SET PASSWORD FOR '${DB_ROOT_USER}'@'%' = PASSWORD('${DB_ROOT_PASS}');"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "ALTER USER 'root'@'%' IDENTIFIED BY '${DB_ROOT_PASS}';"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "CREATE DATABASE IF NOT EXISTS \'${DB_NAME}\';"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%';"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
-# mysql -u ${DB_ROOT_USER} -p"${DB_ROOT_PASS}" -e "FLUSH PRIVILEGES;"
-
-mysql -u root <<EOF
-
-SET PASSWORD FOR 'root'@'%' = PASSWORD('${DB_ROOT_PASS}');
-ALTER USER 'root'@'%' IDENTIFIED BY '${DB_ROOT_PASS}';
-CREATE DATABASE IF NOT EXISTS wordpress;
-CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';
-GRANT ALL ON wordpress.* TO '${DB_USER}'@'%';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+mysqld --user=mysql --bootstrap <<EOF
+USE mysql;
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS \`${MARIADB_NAME}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER IF NOT EXISTS '${MARIADB_USER}'@'%' IDENTIFIED BY '${MARIADB_USER_PASSWORD}';
+GRANT ALL ON \`${MARIADB_NAME}\`.* TO '${MARIADB_USER}'@'%';
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
-
-mysqladmin -u root -p"${DB_ROOT_PASS}" shutdown
 
 exec "$@"

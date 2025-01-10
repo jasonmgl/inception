@@ -1,8 +1,7 @@
 services:
   mariadb:
-    # build: ./requirements/mariadb
-    image: mariadb
-    # container_name: mariadb
+    build: ./requirements/mariadb
+    container_name: mariadb
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     volumes:
@@ -29,6 +28,11 @@ services:
     container_name: wordpress
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
+    environment:
+      - WORDPRESS_DB_HOST=${MARIADB_HOST}
+      - WORDPRESS_DB_NAME=${MARIADB_NAME}
+      - WORDPRESS_DB_USER=${MARIADB_USER}
+      - WORDPRESS_DB_PASSWORD=${MARIADB_USER_PASSWORD}
     volumes:
       - wordpress:/var/www/html
     expose:
