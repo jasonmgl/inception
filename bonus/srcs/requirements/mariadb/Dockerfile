@@ -2,7 +2,8 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y && apt install -y \
     mariadb-server=1:10.5.26-0+deb11u2 && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./script/script.sh /bin/script.sh
 

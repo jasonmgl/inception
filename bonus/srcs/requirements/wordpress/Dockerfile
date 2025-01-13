@@ -7,7 +7,8 @@ RUN apt update -y && apt upgrade -y && apt install -y \
     php-fpm=2:7.4+76 \
     php-redis=5.3.2+4.3.0-2+deb11u1 \
     php-mysql=2:7.4+76 && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
