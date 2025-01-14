@@ -8,7 +8,7 @@ up:
 	mkdir -p /home/jmougel/data/wp
 	mkdir -p /home/jmougel/data/db
 	sudo -S chmod -R 777 /home/jmougel/data
-	${DOCKER} -f ${DOCKER_FILE} up --build --timeout 300 -d
+	${DOCKER} -f ${DOCKER_FILE} up --build --timeout 300
 
 down:
 	${DOCKER} -f ${DOCKER_FILE} down

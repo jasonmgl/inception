@@ -28,12 +28,17 @@ services:
     container_name: redis
     expose:
       - 6379
+    depends_on:
+      - wordpress
     networks:
       - docker-network
     restart: on-failure
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
+    depends_on:
+      - nginx
+      - mariadb
     env_file:
       - /home/jmougel/Documents/inception/srcs/.env
     environment:
@@ -54,8 +59,12 @@ services:
     ports:
       - "20-21:20-21"
       - "65500-65515:65500-65515"
+    environment:
+      - FTP_USER=user
+      - FTP_PASS=pass
+      - PASV_ADDRESS=0.0.0.0
     volumes:
-        - "/home/jmougel/data/wp:/var/ftp:ro"
+        - wordpress:/srv/ftp/
     networks:
       - docker-network
     restart: on-failure
