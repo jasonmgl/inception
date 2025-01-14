@@ -1,4 +1,34 @@
 services:
+  redis:
+    build: ./requirements/redis
+    container_name: redis
+    expose:
+      - 6379
+    depends_on:
+      - wordpress
+    networks:
+      - docker-network
+    restart: on-failure
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+      - nginx
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    environment:
+      - WORDPRESS_DB_HOST=${MARIADB_HOST}
+      - WORDPRESS_DB_NAME=${MARIADB_NAME}
+      - WORDPRESS_DB_USER=${MARIADB_USER}
+      - WORDPRESS_DB_PASSWORD=${MARIADB_USER_PASSWORD}
+    volumes:
+      - wordpress:/var/www/html
+    expose:
+      - 9000
+    networks:
+      - docker-network
+    restart: on-failure
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
@@ -23,48 +53,19 @@ services:
     networks:
       - docker-network
     restart: on-failure
-  redis:
-    build: ./requirements/redis
-    container_name: redis
-    expose:
-      - 6379
-    depends_on:
-      - wordpress
-    networks:
-      - docker-network
-    restart: on-failure
-  wordpress:
-    build: ./requirements/wordpress
-    container_name: wordpress
-    depends_on:
-      - nginx
-      - mariadb
-    env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
-    environment:
-      - WORDPRESS_DB_HOST=${MARIADB_HOST}
-      - WORDPRESS_DB_NAME=${MARIADB_NAME}
-      - WORDPRESS_DB_USER=${MARIADB_USER}
-      - WORDPRESS_DB_PASSWORD=${MARIADB_USER_PASSWORD}
-    volumes:
-      - wordpress:/var/www/html
-    expose:
-      - 9000
-    networks:
-      - docker-network
-    restart: on-failure
   ftp:
     build: ./requirements/ftp
     container_name: ftp
     ports:
       - "20-21:20-21"
       - "65500-65515:65500-65515"
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
     environment:
-      - FTP_USER=user
-      - FTP_PASS=pass
-      - PASV_ADDRESS=0.0.0.0
+      - FTP_USER=${FTP_USER}
+      - FTP_PASS=${FTP_PASS}
     volumes:
-        - wordpress:/srv/ftp/
+        - wordpress:/home/jmougel/ftp
     networks:
       - docker-network
     restart: on-failure
