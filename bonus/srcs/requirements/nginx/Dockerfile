@@ -5,7 +5,7 @@ RUN apt update -y && apt upgrade -y && apt install -y \
     openssl=1.1.1w-0+deb11u2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p site2
+    mkdir -p /var/www/site2/
 
 COPY ./conf/default /etc/nginx/sites-available/default
 

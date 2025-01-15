@@ -1,4 +1,14 @@
 services:
+  adminer:
+    build: ./requirements/adminer
+    container_name: adminer
+    expose:
+      - 8000
+    volumes:
+      - wordpress:/usr/bin/adminer
+    networks:
+      - docker-network
+    restart: on-failure
   redis:
     build: ./requirements/redis
     container_name: redis
@@ -66,6 +76,18 @@ services:
       - FTP_PASS=${FTP_PASS}
     volumes:
         - wordpress:/home/jmougel/ftp
+        - /var/log/vsftpd:/var/log/vsftpd
+    networks:
+      - docker-network
+    restart: on-failure
+  fail2ban:
+    build: ./requirements/fail2ban
+    container_name: fail2ban
+    depends_on:
+      - ftp
+      - nginx
+    volumes:
+      - /var/log/vsftpd:/var/log/vsftpd
     networks:
       - docker-network
     restart: on-failure

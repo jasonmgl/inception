@@ -17,7 +17,11 @@ listen_port=21
 seccomp_sandbox=NO
 connect_from_port_20=YES
 
+log_ftp_protocol=YES
+vsftpd_log_file=/var/log/vsftpd/vsftpd.log
 xferlog_enable=YES
+xferlog_file=/var/log/vsftpd/vsftpd.log
+xferlog_std_format=NO
 
 ftp_username=$FTP_USER
 local_root=/home/$FTP_USER/ftp

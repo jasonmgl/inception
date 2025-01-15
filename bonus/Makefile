@@ -19,8 +19,6 @@ clean:
 	${DOCKER} -f ${DOCKER_FILE} down -v
 
 fclean: clean
-	sudo rm -rf /home/jmougel/data/wp
-	sudo rm -rf /home/jmougel/data/db
 	docker system prune -af
 
 .PHONY: up down clean fclean re
