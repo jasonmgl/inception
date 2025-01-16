@@ -1,0 +1,111 @@
+services:
+  adminer:
+    build: ./requirements/adminer
+    container_name: adminer
+    expose:
+      - 8000
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - docker-network
+    restart: on-failure
+  redis:
+    build: ./requirements/redis
+    container_name: redis
+    expose:
+      - 6379
+    depends_on:
+      - wordpress
+    networks:
+      - docker-network
+    restart: on-failure
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+      - nginx
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    environment:
+      - WORDPRESS_DB_HOST=${MARIADB_HOST}
+      - WORDPRESS_DB_NAME=${MARIADB_NAME}
+      - WORDPRESS_DB_USER=${MARIADB_USER}
+      - WORDPRESS_DB_PASSWORD=${MARIADB_USER_PASSWORD}
+    volumes:
+      - wordpress:/var/www/html
+    expose:
+      - 9000
+    networks:
+      - docker-network
+    restart: on-failure
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - mariadb:/var/lib/mysql
+    expose:
+      - 3306
+    networks:
+      - docker-network
+    restart: on-failure
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    volumes:
+      - wordpress:/var/www/html
+    ports:
+      - 443:443
+    networks:
+      - docker-network
+    restart: on-failure
+  ftp:
+    build: ./requirements/ftp
+    container_name: ftp
+    ports:
+      - "20-21:20-21"
+      - "65500-65515:65500-65515"
+    env_file:
+      - /home/jmougel/Documents/inception/srcs/.env
+    environment:
+      - FTP_USER=${FTP_USER}
+      - FTP_PASS=${FTP_PASS}
+    volumes:
+        - wordpress:/home/jmougel/ftp
+        - /var/log/vsftpd:/var/log/vsftpd
+    networks:
+      - docker-network
+    restart: on-failure
+  fail2ban:
+    build: ./requirements/fail2ban
+    container_name: fail2ban
+    depends_on:
+      - ftp
+      - nginx
+    volumes:
+      - /var/log/vsftpd:/var/log/vsftpd
+    networks:
+      - docker-network
+    restart: on-failure
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/jmougel/data/wp
+  mariadb:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/jmougel/data/db
+
+networks:
+  docker-network:
+    driver: bridge
