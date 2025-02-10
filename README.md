@@ -9,7 +9,7 @@ Features
 
 ## Getting Started
 
-### To get started with this project:
+### Usage:
 
 Clone the Repository:
 
@@ -19,8 +19,17 @@ cd inception
 ```
 Build and Start the Containers:
 ```bash
-docker-compose up --build
+make
 ```
+Stopping the Containers:
+```bash
+make down
+```
+Cleaning Up:
+```bash
+make clean
+```
+
 
 Access the Services:
 - Service 1: http://localhost:8080
@@ -47,18 +56,3 @@ inception/
 - bonus/: Additional features or services.
 - Makefile: Automates the setup and management of the Docker environment.
 - docker-compose.yml: Defines the Docker services, networks, and volumes.
-
-## Usage
-
-Starting the Environment:
-```bash
-make
-```
-Stopping the Environment:
-```bash
-make down
-```
-Cleaning Up:
-```bash
-make clean
-```
