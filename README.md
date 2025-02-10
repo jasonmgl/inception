@@ -3,9 +3,9 @@
 This project focuses on setting up a multi-container Docker environment using Docker Compose. The goal is to understand how to orchestrate multiple services and manage their configurations effectively.
 Features
 
-    Multi-Container Setup: Learn to configure and manage multiple Docker containers.
-    Service Orchestration: Understand how to link services together using Docker Compose.
-    Configuration Management: Manage environment variables and configurations for different services.
+- Multi-Container Setup: Learn to configure and manage multiple Docker containers.
+- Service Orchestration: Understand how to link services together using Docker Compose.
+- Configuration Management: Manage environment variables and configurations for different services.
 
 ## Getting Started
 
