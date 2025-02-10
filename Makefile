@@ -20,7 +20,5 @@ clean:
 
 fclean: clean
 	docker system prune -af
-	sudo rm -rf /home/jmougel/data/wp
-	sudo rm -rf /home/jmougel/data/db
 
 .PHONY: up down clean fclean re

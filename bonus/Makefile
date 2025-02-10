@@ -14,9 +14,9 @@ down:
 	${DOCKER} -f ${DOCKER_FILE} down
 
 clean:
+	${DOCKER} -f ${DOCKER_FILE} down -v
 	sudo rm -rf /home/jmougel/data/wp
 	sudo rm -rf /home/jmougel/data/db
-	${DOCKER} -f ${DOCKER_FILE} down -v
 
 fclean: clean
 	docker system prune -af
