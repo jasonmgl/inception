@@ -41,8 +41,7 @@ make clean
 
 Access the Services:
 - Service 1: http://localhost:8080
-(Bonus only)
-- Service 2: http://localhost:8081
+- Service 2: http://localhost:8081 (Bonus only)
 
 
 ### Prerequisites
