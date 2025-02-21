@@ -17,9 +17,13 @@ Clone the Repository:
 git clone https://github.com/jasonmgl/inception.git
 cd inception
 ```
-Build and Start the Containers:
+Build the Containers:
 ```bash
 make
+```
+Start the Containers:
+```bash
+make up
 ```
 Stopping the Containers:
 ```bash
@@ -33,6 +37,8 @@ make clean
 
 Access the Services:
 - Service 1: http://localhost:8080
+
+Bonus only:
 - Service 2: http://localhost:8081
 
 ### Prerequisites
