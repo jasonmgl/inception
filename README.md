@@ -17,6 +17,10 @@ Clone the Repository:
 git clone https://github.com/jasonmgl/inception.git
 cd inception
 ```
+(Optionnal) If you want to launch bonus parts (more features):
+```bash
+cd bonus
+```
 Build the Containers:
 ```bash
 make
@@ -37,9 +41,9 @@ make clean
 
 Access the Services:
 - Service 1: http://localhost:8080
-
-Bonus only:
+(Bonus only)
 - Service 2: http://localhost:8081
+
 
 ### Prerequisites
 - Docker
