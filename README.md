@@ -16,7 +16,6 @@ The objective is to build a complete and secure infrastructure composed of multi
 - Configure a secure web infrastructure
 - Work with networking, volumes, and services isolation
 
----
 
 ## Architecture
 ```
@@ -43,7 +42,6 @@ The objective is to build a complete and secure infrastructure composed of multi
     - phpMyAdmin (DB management)
     - Fail2Ban (security)
 
----
 
 ## Services
 
