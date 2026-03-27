@@ -1,67 +1,202 @@
-# Inception
+# Inception 🐳
 
-This project focuses on setting up a multi-container Docker environment using Docker Compose. The goal is to understand how to orchestrate multiple services and manage their configurations effectively.
-Features
+## 📖 Overview
 
-- Multi-Container Setup: Learn to configure and manage multiple Docker containers.
-- Service Orchestration: Understand how to link services together using Docker Compose.
-- Configuration Management: Manage environment variables and configurations for different services.
+**Inception** is a system administration project from the 42 curriculum focused on **containerization and service orchestration using Docker**.
 
-## Getting Started
+The objective is to build a complete and secure infrastructure composed of multiple services running in isolated containers and orchestrated with **Docker Compose**.
 
-### Usage:
+---
 
-Clone the Repository:
+## 🧠 Objectives
 
-```bash
-git clone https://github.com/jasonmgl/inception.git
-cd inception
-```
-(Optionnal) If you want to launch bonus parts (more features):
-```bash
-cd bonus
-```
-Build the Containers:
-```bash
-make
-```
-Start the Containers:
-```bash
-make up
-```
-Stopping the Containers:
-```bash
-make down
-```
-Cleaning Up:
-```bash
-make clean
-```
+- Understand Docker fundamentals
+- Build and manage custom Docker images
+- Orchestrate multi-container applications
+- Configure a secure web infrastructure
+- Work with networking, volumes, and services isolation
 
+---
 
-Access the Services:
-- Service 1: http://localhost:8080
-- Service 2: http://localhost:8081 (Bonus only)
+## 🏗️ Architecture
 
+                ┌───────────────┐
+                │    NGINX      │
+                │ (Reverse Proxy)
+                └──────┬────────┘
+                       │ HTTPS (TLS)
+                       ▼
+        ┌──────────────────────────────┐
+        │          WORDPRESS           │
+        │     (PHP-FPM Application)    │
+        └───────────┬──────────────────┘
+                    │
+                    ▼
+             ┌──────────────┐
+             │   MARIADB    │
+             │   (Database) │
+             └──────────────┘
 
-### Prerequisites
-- Docker
-- Docker Compose
+    Additional Services:
+    - Redis (cache)
+    - FTP Server (vsftpd)
+    - phpMyAdmin (DB management)
+    - Fail2Ban (security)
 
-Ensure both are installed and running on your system.
+---
 
-### Project Structure
-```
-inception/
+## ⚙️ Services
+
+### 🔹 NGINX
+- Reverse proxy
+- HTTPS (TLS/SSL)
+- Handles incoming traffic
+
+### 🔹 WordPress
+- PHP-FPM application
+- Connected to MariaDB
+- Uses Redis for caching
+
+### 🔹 MariaDB
+- Database service
+- Stores WordPress data
+
+### 🔹 Redis
+- Improves performance with caching
+
+### 🔹 vsftpd
+- FTP server for file transfer
+
+### 🔹 phpMyAdmin
+- Web interface to manage the database
+
+### 🔹 Fail2Ban
+- Protects services from brute-force attacks
+
+---
+
+## 🐳 Docker Implementation
+
+### 🔹 Custom Images
+Each service is built from a custom **Dockerfile**:
+- No pre-built images (except base images)
+- Secure and minimal configurations
+
+### 🔹 Docker Compose
+
+The infrastructure is orchestrated using:
+
+docker-compose up -d
+
+Responsibilities:
+- Service orchestration
+- Network management
+- Volume persistence
+
+---
+
+## 📂 Project Structure
+
+.
 ├── srcs/
-│   ├── service1/
-│   ├── service2/
-│   └── ...
-├── bonus/
-├── Makefile
-└── docker-compose.yml
-```
-- srcs/: Contains the source files for the services.
-- bonus/: Additional features or services.
-- Makefile: Automates the setup and management of the Docker environment.
-- docker-compose.yml: Defines the Docker services, networks, and volumes.
+│   ├── requirements/
+│   │   ├── nginx/
+│   │   ├── wordpress/
+│   │   ├── mariadb/
+│   │   ├── redis/
+│   │   ├── vsftpd/
+│   │   ├── phpmyadmin/
+│   │   └── fail2ban/
+│   ├── docker-compose.yml
+│   └── .env
+
+---
+
+## 🔐 Security
+
+- HTTPS enforced (TLS)
+- Environment variables for sensitive data
+- Fail2Ban protection
+- Isolated containers
+
+---
+
+## 💾 Volumes
+
+- Database persistence (MariaDB)
+- WordPress files persistence
+
+---
+
+## 🌐 Networking
+
+- Custom Docker network
+- Internal communication between services
+- External access via NGINX
+
+---
+
+## 🚀 How to Run
+
+make
+
+or
+
+docker-compose up -d --build
+
+---
+
+## 🧪 Features
+
+- Multi-service architecture
+- Secure web hosting
+- Persistent storage
+- Container isolation
+- Service communication
+
+---
+
+## ⚠️ Challenges Faced
+
+- Container networking
+- HTTPS configuration
+- Service dependencies
+- Data persistence
+- Debugging container issues
+
+---
+
+## 🛠️ DevOps Practices
+
+- Infrastructure as Code (Docker Compose)
+- Service isolation
+- Configuration management
+- Secure deployment practices
+
+---
+
+## 💡 Key Learnings
+
+- Docker image creation
+- Container orchestration
+- Networking between services
+- Security in containerized environments
+- Real-world infrastructure design
+
+---
+
+## 📎 Author
+
+**Jason Mougel**
+
+- GitHub: https://github.com/jasonmgl
+- LinkedIn: Jason MOUGEL
+
+---
+
+## 🚀 Future Improvements
+
+- CI/CD pipeline integration
+- Monitoring (Prometheus / Grafana)
+- Logging system (ELK stack)
+- Kubernetes migration (K3s 👀)
