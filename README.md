@@ -96,6 +96,20 @@ Responsibilities:
 ---
 
 ## Project Structure
+
+### Mandatory:
+```
+.
+├── srcs/
+│   ├── requirements/
+│   │   ├── nginx/
+│   │   ├── wordpress/
+│   │   ├── mariadb/
+│   ├── docker-compose.yml
+│   └── .env
+```
+
+### Bonus:
 ```
 .
 ├── srcs/
@@ -137,10 +151,24 @@ Responsibilities:
 ---
 
 ## How to Run
+
+### Mandatory:
 ```
 make
 ```
 or
 ```
+cd srcs/
+docker-compose up -d --build
+```
+
+### Bonus:
+```
+cd bonus
+make
+```
+or
+```
+cd bonus/srcs/
 docker-compose up -d --build
 ```
