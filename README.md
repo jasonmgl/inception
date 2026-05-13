@@ -81,7 +81,6 @@ Add the local domains:
 
 ```text
 127.0.0.1 jmougel.local
-127.0.0.1 www.jmougel.local
 127.0.0.1 jmougel2.local
 ```
 
@@ -104,48 +103,30 @@ Fill every `<REPLACE_HERE>` value in the `.env` files before launching the proje
 
 Mandatory stack:
 
-```bash
-make up
-make down
-make re
-make clean
-```
+| Command | Description |
+| --- | --- |
+| `make up` | Create the data directories, build the images, and start the mandatory stack in detached mode. |
+| `make down` | Stop and remove the mandatory stack containers while keeping persistent data. |
+| `make re` | Rebuild the mandatory stack from a clean state by running `down`, `clean`, then `up`. |
+| `make clean` | Stop the mandatory stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
 
 Bonus stack:
 
-```bash
-cd bonus
-make up
-make down
-make re
-make clean
-```
+| Command | Description |
+| --- | --- |
+| `cd bonus && make up` | Create the data directories, build the images, and start the bonus stack in detached mode. |
+| `cd bonus && make down` | Stop and remove the bonus stack containers while keeping persistent data. |
+| `cd bonus && make re` | Rebuild the bonus stack from a clean state by running `down`, `clean`, then `up`. |
+| `cd bonus && make clean` | Stop the bonus stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
 
 ## Access
 
-### Application
-
-```text
-https://jmougel.local
-```
-
-### Bonus Static Site
-
-```text
-https://jmougel2.local
-```
-
-### Bonus Adminer
-
-```text
-https://jmougel.local/adminer/
-```
-
-### Bonus FTP
-
-```text
-ftp://jmougel.local
-```
+| URL | Description |
+| --- | --- |
+| `https://jmougel.local` | Main WordPress application served over HTTPS. |
+| `https://jmougel2.local` | Bonus static website. |
+| `https://jmougel.local/adminer/` | Bonus Adminer interface for database administration. |
+| `ftp://jmougel.local` | Bonus FTP endpoint for accessing WordPress files. |
 
 ### Credentials
 
