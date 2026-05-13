@@ -1,174 +1,208 @@
 # Inception
 
-## Overview
+*This project was created as part of the 42 curriculum by jmougel.*
 
-**Inception** is a system administration project from the 42 curriculum focused on **containerization and service orchestration using Docker**.
+[Back](./README.md)
 
-The objective is to build a complete and secure infrastructure composed of multiple services running in isolated containers and orchestrated with **Docker Compose**.
+## Description
 
----
+Clearly present the project, its purpose, and a short overview of what it does.
+
+Example:
+This project consists of building, configuring, or deploying a specific system or application while respecting a defined set of technical constraints.
 
 ## Objectives
 
-- Understand Docker fundamentals
-- Build and manage custom Docker images
-- Orchestrate multi-container applications
-- Configure a secure web infrastructure
-- Work with networking, volumes, and services isolation
+Describe what this project is meant to teach, demonstrate, or validate.
 
----
+Example:
+The goal of this project is to learn how to work with containerization, orchestration, automation, or software architecture in a practical environment.
 
-## Architecture
+## Features
+
+Add this section only if relevant.
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## Constraints
+
+List the main project requirements, technical limitations, or rules imposed by the subject.
+
+Example:
+- Use a specific language or framework
+- Respect given architecture constraints
+- Follow deployment or performance requirements
+- Avoid forbidden functions or tools
+
+## Tech Stack
+
+- **Languages:** 
+- **Tools:** 
+- **Frameworks:** 
+- **Environment:** 
+
+## Prerequisites
+
+List the tools, dependencies, services, or local configuration required before starting.
+
+Example:
+- `make`
+- `docker`
+- `docker compose`
+- `kubectl`
+- `helm`
+- `vagrant`
+- `/etc/hosts` entries if needed
+
+## Instructions
+
+### Installation
+
+```bash
+git clone <repository_url>
+cd <project_directory>
 ```
-                ┌───────────────┐
-                │    NGINX      │
-                │ (Reverse Proxy)
-                └──────┬────────┘
-                       │ HTTPS (TLS)
-                       ▼
-        ┌──────────────────────────────┐
-        │          WORDPRESS           │
-        │     (PHP-FPM Application)    │
-        └───────────┬──────────────────┘
-                    │
-                    ▼
-             ┌──────────────┐
-             │   MARIADB    │
-             │   (Database) │
-             └──────────────┘
+
+Add any extra setup step if needed.
+
+Example:
+```bash
+cp .env.sample .env
 ```
-    Additional Services:
-    - Redis (cache)
-    - FTP Server (vsftpd)
-    - phpMyAdmin (DB management)
-    - Fail2Ban (security)
 
----
+### Usage
 
-## Services
-
-### NGINX
-- Reverse proxy
-- HTTPS (TLS/SSL)
-- Handles incoming traffic
-
-### WordPress
-- PHP-FPM application
-- Connected to MariaDB
-- Uses Redis for caching
-
-### MariaDB
-- Database service
-- Stores WordPress data
-
-### Redis
-- Improves performance with caching
-
-### vsftpd
-- FTP server for file transfer
-
-### phpMyAdmin
-- Web interface to manage the database
-
-### Fail2Ban
-- Protects services from brute-force attacks
-
----
-
-## Docker Implementation
-
-### Custom Images
-Each service is built from a custom **Dockerfile**:
-- No pre-built images (except base images)
-- Secure and minimal configurations
-
-### Docker Compose
-
-The infrastructure is orchestrated using:
+```bash
+<command_to_build_or_run>
 ```
-docker-compose up -d
-```
-Responsibilities:
-- Service orchestration
-- Network management
-- Volume persistence
 
----
+Add the main commands used to start, stop, rebuild, or clean the project.
+
+Example:
+```bash
+make up
+make down
+make re
+make clean
+```
+
+## Access
+
+Add this section only if the project exposes services, dashboards, APIs, websites, or web interfaces.
+
+### Dashboard
+
+```text
+http://example.local/
+```
+
+### Application
+
+```text
+http://app.local/
+```
+
+### API
+
+```text
+http://api.local/
+```
+
+### Credentials
+
+Add this section only if demo credentials are required.
+
+For demonstration purposes, the default credentials used in this project are:
+
+- **Service 1** — `user` / `password`
+- **Service 2** — `user` / `password`
+
+## Validation
+
+Show how to verify that the project is working correctly.
+
+Example:
+```bash
+<test_command_1>
+<test_command_2>
+```
+
+Expected result:
+- The service starts correctly
+- The application is reachable
+- The deployment is healthy
+- The required resources are created
+
+## Notes
+
+Add this section only if relevant.
+
+Use it for:
+- warnings
+- limitations
+- special configuration
+- destructive commands
+- known issues
+- assumptions
+
+Example:
+- `make purge` removes local tools and should be used with caution.
+- This project requires specific host entries in `/etc/hosts`.
+- Some services may take a few minutes to become ready.
 
 ## Project Structure
 
-### Mandatory:
-```
+```text
 .
-├── srcs/
-│   ├── requirements/
-│   │   ├── nginx/
-│   │   ├── wordpress/
-│   │   ├── mariadb/
-│   ├── docker-compose.yml
-│   └── .env
+├── src/
+├── include/
+├── assets/
+├── scripts/
+├── confs/
+├── .env.sample
+├── Makefile
+└── README.md
 ```
 
-### Bonus:
-```
-.
-├── srcs/
-│   ├── requirements/
-│   │   ├── nginx/
-│   │   ├── wordpress/
-│   │   ├── mariadb/
-│   │   ├── redis/
-│   │   ├── vsftpd/
-│   │   ├── phpmyadmin/
-│   │   └── fail2ban/
-│   ├── docker-compose.yml
-│   └── .env
-```
----
+## Resources
 
-## Security
+Add this section only if relevant.
 
-- HTTPS enforced (TLS)
-- Environment variables for sensitive data
-- Fail2Ban protection
-- Isolated containers
+### Images
 
----
+![Project architecture](link)
 
-## Volumes
+### Documentation
 
-- Database persistence (MariaDB)
-- WordPress files persistence
+- [Official documentation](link)
 
----
+### Articles
 
-## Networking
+- [Useful article](link)
 
-- Custom Docker network
-- Internal communication between services
-- External access via NGINX
+### Videos
 
----
+- [Helpful video](link)
 
-## How to Run
+## AI Usage
 
-### Mandatory:
-```
-make
-```
-or
-```
-cd srcs/
-docker-compose up -d --build
-```
+Describe how AI was used during the project, if applicable.
 
-### Bonus:
-```
-cd bonus
-make
-```
-or
-```
-cd bonus/srcs/
-docker-compose up -d --build
-```
+Example:
+AI was mainly used to:
+- better understand concepts
+- generate diagrams
+- improve documentation
+- reformulate explanations
+- create quizzes for revision
+
+## Author
+
+- **Login:** jmougel
+- **GitHub:** [jasonmgl](https://github.com/jasonmgl)
+
+## License
+
+This project is for educational purposes.
