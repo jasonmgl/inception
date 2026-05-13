@@ -3,7 +3,7 @@ services:
     build: ./requirements/mariadb
     container_name: mariadb
     env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
+      - .env
     volumes:
       - mariadb:/var/lib/mysql
     expose:
@@ -15,7 +15,7 @@ services:
     build: ./requirements/nginx
     container_name: nginx
     env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
+      - .env
     volumes:
       - wordpress:/var/www/html
     ports:
@@ -27,7 +27,7 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     env_file:
-      - /home/jmougel/Documents/inception/srcs/.env
+      - .env
     environment:
       - WORDPRESS_DB_HOST=${MARIADB_HOST}
       - WORDPRESS_DB_NAME=${MARIADB_NAME}
@@ -47,13 +47,13 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/jmougel/data/wp
+      device: /inception/data/wp
   mariadb:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /home/jmougel/data/db
+      device: /inception/data/db
 
 networks:
   docker-network:

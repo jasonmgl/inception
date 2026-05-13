@@ -3,9 +3,9 @@ FROM debian:bullseye
 EXPOSE 9000
 
 RUN apt update -y && apt upgrade -y && apt install -y \
-    curl=7.74.0-1.3+deb11u14 \
-    php-fpm=2:7.4+76 \
-    php-mysql=2:7.4+76 && \
+    curl \
+    php-fpm \
+    php-mysql && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

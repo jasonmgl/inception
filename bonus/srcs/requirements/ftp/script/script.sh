@@ -1,12 +1,14 @@
 #!/bin/bash
 
 mv /etc/vsftpd.conf /etc/vsftpd.conf.ori
+mkdir -p /var/log/vsftpd
+touch /var/log/vsftpd/vsftpd.log
 
 adduser --gecos "" $FTP_USER &> /dev/null
 echo "$FTP_USER:$FTP_PASS" | chpasswd &> /dev/null
-chown -R "$FTP_USER:$FTP_USER" /home/$FTP_USER/ftp &> /dev/null
-chmod 777 /home/$FTP_USER/ftp &> /dev/null
-chown "$FTP_USER:$FTP_USER" /home/john/ftp/upload &> /dev/null
+mkdir -p /inception/ftp/upload
+chown -R "$FTP_USER:$FTP_USER" /inception/ftp &> /dev/null
+chmod 777 /inception/ftp &> /dev/null
 echo "$FTP_USER" | tee -a /etc/vsftpd.userlist &> /dev/null
 
 cat <<EOF  > /etc/vsftpd.conf
@@ -24,7 +26,7 @@ xferlog_file=/var/log/vsftpd/vsftpd.log
 xferlog_std_format=NO
 
 ftp_username=$FTP_USER
-local_root=/home/$FTP_USER/ftp
+local_root=/inception/ftp
 secure_chroot_dir=/var/run/vsftpd/empty
 allow_writeable_chroot=YES
 chroot_local_user=YES

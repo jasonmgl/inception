@@ -3,7 +3,7 @@ FROM debian:bullseye
 EXPOSE 6379
 
 RUN apt update -y && apt upgrade -y && apt install -y \
-    redis-server=5:6.0.16-1+deb11u4 && \
+    redis-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -1,24 +1,24 @@
 DOCKER = docker compose
 DOCKER_FILE = ./srcs/docker-compose.yml
 
-re: down fclean up
+re: down clean up
 
 up:
-	mkdir -p /home/jmougel/data
-	mkdir -p /home/jmougel/data/wp
-	mkdir -p /home/jmougel/data/db
-	sudo -S chmod -R 777 /home/jmougel/data
-	${DOCKER} -f ${DOCKER_FILE} up --build --timeout 300 -d
+	sudo mkdir -p /inception/data
+	sudo mkdir -p /inception/data/wp
+	sudo mkdir -p /inception/data/db
+	sudo -S chmod -R 777 /inception/data
+	sudo ${DOCKER} -f ${DOCKER_FILE} up --build --timeout 300 -d
 
 down:
-	${DOCKER} -f ${DOCKER_FILE} down
+	sudo ${DOCKER} -f ${DOCKER_FILE} down
 
 clean:
-	${DOCKER} -f ${DOCKER_FILE} down -v
-	sudo rm -rf /home/jmougel/data/wp
-	sudo rm -rf /home/jmougel/data/db
+	sudo ${DOCKER} -f ${DOCKER_FILE} down -v
+	sudo rm -rf /inception/data/wp
+	sudo rm -rf /inception/data/db
 
 fclean: clean
-	docker system prune -af
+	sudo docker system prune -af
 
 .PHONY: up down clean fclean re
