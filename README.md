@@ -109,6 +109,7 @@ Mandatory stack:
 | `make down` | Stop and remove the mandatory stack containers while keeping persistent data. |
 | `make re` | Rebuild the mandatory stack from a clean state by running `down`, `clean`, then `up`. |
 | `make clean` | Stop the mandatory stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
+| `make fclean` | Run `clean`, then remove unused Docker images, containers, networks, and build cache. |
 
 Bonus stack:
 
@@ -118,6 +119,7 @@ Bonus stack:
 | `cd bonus && make down` | Stop and remove the bonus stack containers while keeping persistent data. |
 | `cd bonus && make re` | Rebuild the bonus stack from a clean state by running `down`, `clean`, then `up`. |
 | `cd bonus && make clean` | Stop the bonus stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
+| `cd bonus && make fclean` | Run `clean`, then remove unused Docker images, containers, networks, and build cache. |
 
 ## Access
 

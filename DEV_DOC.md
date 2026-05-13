@@ -52,7 +52,6 @@ Add local domains to `/etc/hosts`:
 
 ```text
 127.0.0.1 jmougel.local
-127.0.0.1 www.jmougel.local
 127.0.0.1 jmougel2.local
 ```
 
@@ -130,35 +129,13 @@ sudo docker compose -f ./srcs/docker-compose.yml up --build --timeout 300 -d
 
 ## Makefile Commands
 
-Start or rebuild the stack:
-
-```bash
-make up
-```
-
-Stop containers without deleting persistent data:
-
-```bash
-make down
-```
-
-Delete project volumes and `/inception/data`, then rebuild:
-
-```bash
-make re
-```
-
-Stop containers and delete project volumes plus project data:
-
-```bash
-make clean
-```
-
-Run `clean` and prune unused Docker resources globally:
-
-```bash
-make fclean
-```
+| Command | Description |
+| --- | --- |
+| `make up` | Start or rebuild the stack. |
+| `make down` | Stop containers without deleting persistent data. |
+| `make re` | Delete project volumes and `/inception/data`, then rebuild. |
+| `make clean` | Stop containers and delete project volumes plus project data. |
+| `make fclean` | Run `clean` and prune unused Docker resources globally. |
 
 Use `fclean` carefully because `docker system prune -af` affects Docker resources beyond this project.
 

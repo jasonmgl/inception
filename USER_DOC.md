@@ -69,7 +69,6 @@ Before opening the website, make sure these entries exist in `/etc/hosts`:
 
 ```text
 127.0.0.1 jmougel.local
-127.0.0.1 www.jmougel.local
 127.0.0.1 jmougel2.local
 ```
 
