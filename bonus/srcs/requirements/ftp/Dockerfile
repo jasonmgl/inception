@@ -3,7 +3,7 @@ FROM debian:bullseye
 EXPOSE 20-21
 EXPOSE 65500-65515
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     vsftpd \
     dumb-init && \
     apt-get clean && \
@@ -16,4 +16,4 @@ RUN chmod +x /bin/script.sh
 
 ENTRYPOINT ["dumb-init", "--", "bash", "/bin/script.sh"]
 
-CMD ["dumb-init", "--", "vsftpd", "/etc/vsftpd.conf"]
+CMD ["vsftpd", "/etc/vsftpd.conf"]

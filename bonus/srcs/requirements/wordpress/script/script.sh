@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 WP_CLI=/usr/local/bin/wp
 WP_CLI_URL=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 

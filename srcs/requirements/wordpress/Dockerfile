@@ -2,10 +2,14 @@ FROM debian:bullseye
 
 EXPOSE 9000
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
+    php-cli \
     php-fpm \
     php-mysql && \
+    curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x /usr/local/bin/wp && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -1,15 +1,23 @@
 #!/bin/bash
 
-mv /etc/vsftpd.conf /etc/vsftpd.conf.ori
+set -e
+
+if [ -f /etc/vsftpd.conf ] && [ ! -f /etc/vsftpd.conf.ori ]; then
+    mv /etc/vsftpd.conf /etc/vsftpd.conf.ori
+fi
+
 mkdir -p /var/log/vsftpd
 touch /var/log/vsftpd/vsftpd.log
 
-adduser --gecos "" $FTP_USER &> /dev/null
+if ! id "$FTP_USER" > /dev/null 2>&1; then
+    adduser --gecos "" "$FTP_USER" &> /dev/null
+fi
 echo "$FTP_USER:$FTP_PASS" | chpasswd &> /dev/null
 mkdir -p /inception/ftp/upload
 chown -R "$FTP_USER:$FTP_USER" /inception/ftp &> /dev/null
 chmod 777 /inception/ftp &> /dev/null
-echo "$FTP_USER" | tee -a /etc/vsftpd.userlist &> /dev/null
+touch /etc/vsftpd.userlist
+grep -Fxq "$FTP_USER" /etc/vsftpd.userlist || echo "$FTP_USER" >> /etc/vsftpd.userlist
 
 cat <<EOF  > /etc/vsftpd.conf
 listen=YES

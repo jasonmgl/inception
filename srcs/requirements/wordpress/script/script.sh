@@ -1,9 +1,36 @@
 #!/bin/bash
 
+set -e
+
+WP_CLI=/usr/local/bin/wp
+WP_CLI_URL=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+install_wp_cli() {
+    if [ -x "$WP_CLI" ]; then
+        return 0
+    fi
+
+    curl -fsSL --connect-timeout 10 --max-time 60 -o "$WP_CLI" "$WP_CLI_URL"
+    chmod +x "$WP_CLI"
+}
+
+wait_for_mariadb() {
+    local tries=60
+
+    until php -r '$host = getenv("MARIADB_HOST") ?: "mariadb"; $sock = @fsockopen($host, 3306, $errno, $errstr, 2); if (!$sock) exit(1); fclose($sock);'; do
+        tries=$((tries - 1))
+        if [ "$tries" -le 0 ]; then
+            echo "MariaDB is not reachable" >&2
+            return 1
+        fi
+        sleep 2
+    done
+}
+
 generate_wordpress_salts() {
     local salt_file="$1"
 
-    if curl -fsSL https://api.wordpress.org/secret-key/1.1/salt/ > "$salt_file"; then
+    if curl -fsSL --connect-timeout 5 --max-time 20 https://api.wordpress.org/secret-key/1.1/salt/ > "$salt_file"; then
         return 0
     fi
 
@@ -38,17 +65,16 @@ replace_wordpress_salts() {
     rm -f "$salt_file"
 }
 
-sleep 5
-
 mkdir -p /run/php
 chown -R www-data:www-data /run/php
 
 cd /var/www/html
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
 
-wp core download --allow-root 2> /dev/null
+install_wp_cli
+
+if [ ! -f "/var/www/html/wp-load.php" ]; then
+    wp core download --allow-root
+fi
 
 chown -R www-data:www-data /var/www/html
 
@@ -63,14 +89,22 @@ elif grep -Fxq '<REPLACE_HERE>' /var/www/html/wp-config.php || grep -Fxq '$(curl
     replace_wordpress_salts
 fi
 
+wait_for_mariadb
+
 if ! wp core is-installed --allow-root; then
     wp core install --url=$DOMAIN_NAME --title=Inception --admin_user=jmougel --admin_password=$MARIADB_ROOT_PASSWORD \
         --admin_email=jmougel@student.42lyon.fr --allow-root
 
-    wp user create "${WORDPRESS_DB_USER:-$MARIADB_USER}" "test@test.com" --user_pass="${WORDPRESS_DB_PASSWORD:-$MARIADB_USER_PASSWORD}" --role=author --allow-root
-    wp theme install inspiro --activate --allow-root
+    wp user get "${WORDPRESS_DB_USER:-$MARIADB_USER}" --allow-root > /dev/null 2>&1 || \
+        wp user create "${WORDPRESS_DB_USER:-$MARIADB_USER}" "test@test.com" --user_pass="${WORDPRESS_DB_PASSWORD:-$MARIADB_USER_PASSWORD}" --role=author --allow-root
 else
     echo "Ready"
+fi
+
+if ! wp theme is-installed inspiro --allow-root > /dev/null 2>&1; then
+    timeout 120 wp theme install inspiro --activate --allow-root || true
+else
+    wp theme activate inspiro --allow-root || true
 fi
 
 exec "$@"

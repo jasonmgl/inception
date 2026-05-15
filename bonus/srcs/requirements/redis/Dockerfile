@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 EXPOSE 6379
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     redis-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

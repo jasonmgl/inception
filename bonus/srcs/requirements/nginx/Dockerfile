@@ -1,6 +1,8 @@
 FROM debian:bullseye
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+EXPOSE 443
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     openssl && \
     apt-get clean && \

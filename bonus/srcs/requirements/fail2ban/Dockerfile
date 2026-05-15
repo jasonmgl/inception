@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     iptables \
     fail2ban && \
     apt-get clean && \

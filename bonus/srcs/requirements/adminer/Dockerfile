@@ -2,7 +2,8 @@ FROM debian:bullseye
 
 EXPOSE 9000
 
-RUN apt update -y && apt upgrade -y && apt install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
     php-fpm \
     adminer && \

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 mkdir -p /etc/nginx/ssl
 
 if [ ! -f "/etc/nginx/ssl/"$CERTIF_NAME".crt" ]; then
