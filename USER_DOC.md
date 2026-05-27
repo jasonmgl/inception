@@ -1,171 +1,171 @@
-# User Documentation
+# Documentation Utilisateur
 
-This document explains how an end user or administrator can understand, start, stop, access, and check the Inception stack.
+Ce document explique comment un utilisateur final ou un administrateur peut comprendre, démarrer, arrêter, accéder et vérifier la stack Inception.
 
-## Provided Services
+## Services fournis
 
-The mandatory stack provides three services:
+La stack obligatoire fournit trois services :
 
-- **Nginx:** public HTTPS web server. It receives browser traffic on port `443` and forwards PHP requests to WordPress.
-- **WordPress:** website application served by PHP-FPM on internal port `9000`.
-- **MariaDB:** database server used by WordPress on internal port `3306`.
+- **Nginx :** serveur web HTTPS public. Il reçoit le trafic navigateur sur le port `443` et transfère les requêtes PHP vers WordPress.
+- **WordPress :** application web servie par PHP-FPM sur le port interne `9000`.
+- **MariaDB :** serveur de base de données utilisé par WordPress sur le port interne `3306`.
 
-The bonus stack adds:
+La stack bonus ajoute :
 
-- **Redis:** cache service used by WordPress.
-- **Adminer:** browser-based database administration panel.
-- **FTP:** file access to the WordPress volume.
-- **Fail2ban:** monitors FTP logs and bans repeated failed attempts.
-- **Static site:** second website served by Nginx on `jmougel2.local`.
+- **Redis :** service de cache utilisé par WordPress.
+- **Adminer :** interface d’administration de base de données accessible depuis le navigateur.
+- **FTP :** accès aux fichiers du volume WordPress.
+- **Fail2ban :** surveille les logs FTP et bloque les tentatives répétées échouées.
+- **Site statique :** second site web servi par Nginx sur `jmougel2.local`.
 
-Only Nginx and FTP expose public host ports. The other services stay inside the Docker network.
+Seuls Nginx et FTP exposent des ports publics sur l’hôte. Les autres services restent à l’intérieur du réseau Docker.
 
-## Start The Project
+## Démarrer le projet
 
-Start the mandatory stack from the repository root:
+Démarrer la stack obligatoire depuis la racine du dépôt :
 
 ```bash
 make up
 ```
 
-Start the bonus stack:
+Démarrer la stack bonus :
 
 ```bash
 cd bonus
 make up
 ```
 
-The Makefile creates the persistent data directories under `/inception/data`, builds the images, and starts the containers in the background.
+Le Makefile crée les répertoires de données persistantes sous `/inception/data`, construit les images et démarre les conteneurs en arrière-plan.
 
-## Stop The Project
+## Arrêter le projet
 
-Stop the running containers while keeping the stored data:
+Arrêter les conteneurs en cours d’exécution tout en conservant les données stockées :
 
 ```bash
 make down
 ```
 
-Rebuild everything from a clean project data directory:
+Reconstruire entièrement le projet à partir d’un répertoire de données propre :
 
 ```bash
 make re
 ```
 
-Remove the project containers, Docker volumes, and `/inception/data` content:
+Supprimer les conteneurs du projet, les volumes Docker et le contenu de `/inception/data` :
 
 ```bash
 make clean
 ```
 
-Use `make fclean` only when you also want to prune unused Docker resources globally:
+Utilisez `make fclean` uniquement si vous souhaitez aussi nettoyer globalement les ressources Docker inutilisées :
 
 ```bash
 make fclean
 ```
 
-## Access The Website
+## Accéder au site web
 
-Before opening the website, make sure these entries exist in `/etc/hosts`:
+Avant d’ouvrir le site, assurez-vous que les entrées suivantes existent dans `/etc/hosts` :
 
 ```text
 127.0.0.1 jmougel.local
 127.0.0.1 jmougel2.local
 ```
 
-Open WordPress:
+Ouvrir WordPress :
 
 ```text
 https://jmougel.local
 ```
 
-Your browser may show a certificate warning. This is expected because the project generates a self-signed certificate.
+Votre navigateur peut afficher un avertissement concernant le certificat. C’est normal, car le projet génère un certificat auto-signé.
 
-## Access Administration Panels
+## Accéder aux panneaux d’administration
 
-WordPress admin panel:
+Panneau d’administration WordPress :
 
 ```text
 https://jmougel.local/wp-admin/
 ```
 
-Bonus Adminer panel:
+Panneau Adminer bonus :
 
 ```text
 https://jmougel.local/adminer/
 ```
 
-Bonus static website:
+Site statique bonus :
 
 ```text
 https://jmougel2.local
 ```
 
-Bonus FTP service:
+Service FTP bonus :
 
 ```text
 ftp://jmougel.local
 ```
 
-FTP uses ports `20`, `21`, and passive ports `65500-65515`.
+Le FTP utilise les ports `20`, `21` et les ports passifs `65500-65515`.
 
-## Locate And Manage Credentials
+## Localiser et gérer les identifiants
 
-Credentials are stored in the `.env` file used by the stack.
+Les identifiants sont stockés dans le fichier `.env` utilisé par la stack.
 
-Mandatory stack:
+Stack obligatoire :
 
 ```text
 srcs/.env
 ```
 
-Bonus stack:
+Stack bonus :
 
 ```text
 bonus/srcs/.env
 ```
 
-Main credential variables:
+Variables principales d’identification :
 
-- `MARIADB_USER`: MariaDB user and WordPress author username.
-- `MARIADB_USER_PASSWORD`: MariaDB user password and WordPress author password.
-- `MARIADB_ROOT_PASSWORD`: MariaDB root password and WordPress admin password.
-- `FTP_USER`: bonus FTP username.
-- `FTP_PASS`: bonus FTP password.
+- `MARIADB_USER` : utilisateur MariaDB et nom d’utilisateur de l’auteur WordPress.
+- `MARIADB_USER_PASSWORD` : mot de passe de l’utilisateur MariaDB et mot de passe de l’auteur WordPress.
+- `MARIADB_ROOT_PASSWORD` : mot de passe root MariaDB et mot de passe administrateur WordPress.
+- `FTP_USER` : nom d’utilisateur FTP bonus.
+- `FTP_PASS` : mot de passe FTP bonus.
 
-Generated application credentials:
+Identifiants générés pour l’application :
 
-- **WordPress admin:** `jmougel` / `MARIADB_ROOT_PASSWORD`
-- **WordPress author:** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
-- **MariaDB user:** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
-- **MariaDB root:** `root` / `MARIADB_ROOT_PASSWORD`
-- **FTP bonus user:** `FTP_USER` / `FTP_PASS`
+- **Administrateur WordPress :** `jmougel` / `MARIADB_ROOT_PASSWORD`
+- **Auteur WordPress :** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
+- **Utilisateur MariaDB :** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
+- **Root MariaDB :** `root` / `MARIADB_ROOT_PASSWORD`
+- **Utilisateur FTP bonus :** `FTP_USER` / `FTP_PASS`
 
-If credentials change after WordPress or MariaDB has already been initialized, use `make clean` or `make re` to remove old persistent data and rebuild from the new values.
+Si les identifiants changent après l’initialisation de WordPress ou MariaDB, utilisez `make clean` ou `make re` pour supprimer les anciennes données persistantes et reconstruire avec les nouvelles valeurs.
 
-## Check Service Status
+## Vérifier l’état des services
 
-Mandatory stack:
+Stack obligatoire :
 
 ```bash
 sudo docker compose -f srcs/docker-compose.yml ps
 ```
 
-Bonus stack:
+Stack bonus :
 
 ```bash
 sudo docker compose -f bonus/srcs/docker-compose.yml ps
 ```
 
-A healthy stack should show the expected containers running:
+Une stack en bonne santé doit afficher les conteneurs attendus en cours d’exécution :
 
 - `nginx`
 - `wordpress`
 - `mariadb`
-- Bonus: `redis`, `adminer`, `ftp`, `fail2ban`
+- Bonus : `redis`, `adminer`, `ftp`, `fail2ban`
 
-## Check Logs
+## Vérifier les logs
 
-Use logs to understand startup or access problems:
+Utilisez les logs pour comprendre les problèmes de démarrage ou d’accès :
 
 ```bash
 sudo docker logs nginx
@@ -173,7 +173,7 @@ sudo docker logs wordpress
 sudo docker logs mariadb
 ```
 
-Bonus logs:
+Logs bonus :
 
 ```bash
 sudo docker logs redis
@@ -182,58 +182,58 @@ sudo docker logs ftp
 sudo docker logs fail2ban
 ```
 
-## Check Web Access
+## Vérifier l’accès web
 
-Test WordPress:
+Tester WordPress :
 
 ```bash
 curl -kI https://jmougel.local
 ```
 
-Test WordPress admin:
+Tester l’administration WordPress :
 
 ```bash
 curl -kI https://jmougel.local/wp-admin/
 ```
 
-Test bonus Adminer:
+Tester Adminer bonus :
 
 ```bash
 curl -kI https://jmougel.local/adminer/
 ```
 
-Test bonus static site:
+Tester le site statique bonus :
 
 ```bash
 curl -kI https://jmougel2.local
 ```
 
-## Common Problems
+## Problèmes courants
 
-If the domain does not load:
+Si le domaine ne charge pas :
 
-- Check `/etc/hosts`.
-- Check that Nginx is running.
-- Check that port `443` is not already used by another service.
+- Vérifiez `/etc/hosts`.
+- Vérifiez que Nginx est bien en cours d’exécution.
+- Vérifiez que le port `443` n’est pas déjà utilisé par un autre service.
 
-If the browser shows a certificate warning:
+Si le navigateur affiche un avertissement de certificat :
 
-- This is normal for a self-signed local certificate.
+- C’est normal pour un certificat local auto-signé.
 
-If Nginx returns a gateway timeout:
+Si Nginx retourne un gateway timeout :
 
-- Check `sudo docker logs wordpress`.
-- Check that the WordPress container is running.
-- Check that PHP-FPM is listening on internal port `9000`.
-- Check that MariaDB is running and reachable.
+- Vérifiez `sudo docker logs wordpress`.
+- Vérifiez que le conteneur WordPress est bien en cours d’exécution.
+- Vérifiez que PHP-FPM écoute sur le port interne `9000`.
+- Vérifiez que MariaDB est en cours d’exécution et joignable.
 
-If WordPress cannot connect to the database:
+Si WordPress ne parvient pas à se connecter à la base de données :
 
-- Check `srcs/.env` or `bonus/srcs/.env`.
-- Check `MARIADB_HOST`, `MARIADB_NAME`, `MARIADB_USER`, and `MARIADB_USER_PASSWORD`.
-- Check `sudo docker logs mariadb`.
+- Vérifiez `srcs/.env` ou `bonus/srcs/.env`.
+- Vérifiez `MARIADB_HOST`, `MARIADB_NAME`, `MARIADB_USER` et `MARIADB_USER_PASSWORD`.
+- Vérifiez `sudo docker logs mariadb`.
 
-If old credentials still work after editing `.env`:
+Si les anciens identifiants fonctionnent encore après modification du `.env` :
 
-- Persistent data already exists.
-- Run `make re` to remove and recreate project data.
+- Des données persistantes existent déjà.
+- Exécutez `make re` pour supprimer et recréer les données du projet.

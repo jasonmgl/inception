@@ -1,90 +1,92 @@
 # Inception
 
-*This project was created as part of the 42 curriculum by jmougel.*
+*Ce projet a été réalisé dans le cadre du cursus 42 par jmougel.*
 
 ## Description
 
-Inception is a Docker Compose infrastructure project that deploys a complete WordPress stack from custom Debian-based images. The project is built to show how production-style services fit together: an HTTPS reverse proxy, a PHP application runtime, a database, persistent volumes, service networking, and automated initialization.
+*[README_EN.md](./README_EN.md) : an english version is available here.*
 
-The mandatory stack provides:
+Inception est un projet d’infrastructure basé sur Docker Compose qui déploie une stack WordPress complète à partir d’images Debian personnalisées. Le projet a été conçu pour montrer comment des services proches d’un environnement de production s’assemblent : un reverse proxy HTTPS, un environnement d’exécution PHP pour l’application, une base de données, des volumes persistants, un réseau de services et une initialisation automatisée.
 
-- Nginx as the public HTTPS entrypoint
-- WordPress served through PHP-FPM
-- MariaDB as the persistent database
-- A private Docker bridge network
-- Persistent bind-mounted volumes under `/inception/data`
+La stack obligatoire fournit :
 
-The bonus stack extends the project with Redis caching, Adminer, FTP access, Fail2ban protection, and a second static website.
+- Nginx comme point d’entrée HTTPS public
+- WordPress servi via PHP-FPM
+- MariaDB comme base de données persistante
+- Un réseau Docker bridge privé
+- Des volumes persistants montés sous `/inception/data`
+
+La stack bonus étend le projet avec un cache Redis, Adminer, un accès FTP, une protection Fail2ban et un second site statique.
 
 ## Documentation
 
-- [USER_DOC.md](./USER_DOC.md): user and administrator guide for running, accessing, and checking the stack.
-- [DEV_DOC.md](./DEV_DOC.md): developer guide for environment setup, builds, Docker Compose commands, volumes, and persistence.
+- [USER_DOC.md](./USER_DOC.md) : guide utilisateur et administrateur pour lancer, accéder et vérifier la stack.
+- [DEV_DOC.md](./DEV_DOC.md) : guide développeur pour la configuration de l’environnement, les builds, les commandes Docker Compose, les volumes et la persistance.
 
-## Objectives
+## Objectifs
 
-This project is meant to validate practical understanding of:
+Ce projet a pour but de valider une compréhension pratique de :
 
-- Docker image creation with custom Dockerfiles
-- Multi-container orchestration with Docker Compose
-- Container networking and service discovery
-- TLS configuration with Nginx
-- WordPress and MariaDB bootstrap automation
-- Persistent data management with Docker volumes
-- Runtime configuration through environment files
-- Debugging service readiness, logs, ports, and startup order
+- La création d’images Docker avec des Dockerfiles personnalisés
+- L’orchestration multi-conteneurs avec Docker Compose
+- Le réseau entre conteneurs et la découverte de services
+- La configuration TLS avec Nginx
+- L’automatisation du bootstrap de WordPress et MariaDB
+- La gestion de données persistantes avec les volumes Docker
+- La configuration à l’exécution via des fichiers d’environnement
+- Le débogage de la disponibilité des services, des logs, des ports et de l’ordre de démarrage
 
-## Features
+## Fonctionnalités
 
-- Custom Dockerfiles for every service
-- HTTPS-only WordPress access on port `443`
-- Self-signed certificate generation at runtime
-- Automated MariaDB database, user, and privilege setup
-- Automated WordPress download, configuration, and installation with WP-CLI
-- WordPress salts generated from the WordPress API with a local fallback
-- Persistent WordPress files and MariaDB data
-- Private Docker network for internal traffic
-- Bonus Redis cache service
-- Bonus Adminer panel at `/adminer/`
-- Bonus FTP server with passive ports `65500-65515`
-- Bonus Fail2ban jail monitoring FTP logs
-- Bonus second static site on `jmougel2.local`
+- Dockerfiles personnalisés pour chaque service
+- Accès à WordPress uniquement en HTTPS sur le port `443`
+- Génération d’un certificat auto-signé au démarrage
+- Création automatisée de la base MariaDB, de l’utilisateur et des privilèges
+- Téléchargement, configuration et installation automatisés de WordPress avec WP-CLI
+- Génération des clés salts WordPress depuis l’API WordPress avec une solution de secours locale
+- Persistance des fichiers WordPress et des données MariaDB
+- Réseau Docker privé pour le trafic interne
+- Service de cache Redis en bonus
+- Interface Adminer en bonus sur `/adminer/`
+- Serveur FTP en bonus avec ports passifs `65500-65515`
+- Jail Fail2ban en bonus surveillant les logs FTP
+- Second site statique en bonus sur `jmougel2.local`
 
-## Constraints
+## Contraintes
 
-- Each service runs in a dedicated container.
-- Containers are built from local project Dockerfiles.
-- Nginx is the only public web entrypoint.
-- WordPress and MariaDB data persist outside the containers.
-- Services communicate through the Docker network, not host networking.
-- Secrets and runtime values are configured with `.env` files.
-- The stack is managed through Makefile targets and Docker Compose.
-- The mandatory and bonus stacks use fixed container names, so only one stack should run at a time.
+- Chaque service s’exécute dans un conteneur dédié.
+- Les conteneurs sont construits à partir des Dockerfiles locaux du projet.
+- Nginx est le seul point d’entrée web public.
+- Les données WordPress et MariaDB persistent en dehors des conteneurs.
+- Les services communiquent via le réseau Docker, et non via le réseau hôte.
+- Les secrets et valeurs d’exécution sont configurés avec des fichiers `.env`.
+- La stack est gérée via des cibles Makefile et Docker Compose.
+- Les stacks obligatoire et bonus utilisent des noms de conteneurs fixes, donc une seule stack doit être lancée à la fois.
 
-## Tech Stack
+## Stack technique
 
-- **Languages:** Shell, YAML, PHP configuration, Nginx configuration
-- **Tools:** Docker, Docker Compose, Make, WP-CLI, OpenSSL
-- **Services:** Nginx, WordPress, PHP-FPM, MariaDB, Redis, Adminer, vsftpd, Fail2ban
-- **Environment:** Debian Bullseye containers on a Linux host
+- **Langages :** Shell, YAML, configuration PHP, configuration Nginx
+- **Outils :** Docker, Docker Compose, Make, WP-CLI, OpenSSL
+- **Services :** Nginx, WordPress, PHP-FPM, MariaDB, Redis, Adminer, vsftpd, Fail2ban
+- **Environnement :** conteneurs Debian Bullseye sur un hôte Linux
 
-## Prerequisites
+## Prérequis
 
 - `make`
 - `docker`
 - `docker compose`
-- `sudo` access
-- Permission to create and remove `/inception/data`
-- Local DNS entries in `/etc/hosts`
+- un accès `sudo`
+- les permissions nécessaires pour créer et supprimer `/inception/data`
+- des entrées DNS locales dans `/etc/hosts`
 
-Add the local domains:
+Ajoute les domaines locaux suivants :
 
 ```text
 127.0.0.1 jmougel.local
 127.0.0.1 jmougel2.local
 ```
 
-`jmougel2.local` is only required for the bonus static site.
+`jmougel2.local` n’est requis que pour le site statique bonus.
 
 ## Instructions
 
@@ -97,66 +99,66 @@ cp srcs/.env.example srcs/.env
 cp bonus/srcs/.env.example bonus/srcs/.env
 ```
 
-Fill every `<REPLACE_HERE>` value in the `.env` files before launching the project.
+Remplis toutes les valeurs `<REPLACE_HERE>` dans les fichiers `.env` avant de lancer le projet.
 
-### Usage
+### Utilisation
 
-Mandatory stack:
+Stack obligatoire :
 
-| Command | Description |
+| Commande | Description |
 | --- | --- |
-| `make up` | Create the data directories, build the images, and start the mandatory stack in detached mode. |
-| `make down` | Stop and remove the mandatory stack containers while keeping persistent data. |
-| `make re` | Rebuild the mandatory stack from a clean state by running `down`, `clean`, then `up`. |
-| `make clean` | Stop the mandatory stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
-| `make fclean` | Run `clean`, then remove unused Docker images, containers, networks, and build cache. |
+| `make up` | Crée les répertoires de données, construit les images et démarre la stack obligatoire en mode détaché. |
+| `make down` | Arrête et supprime les conteneurs de la stack obligatoire tout en conservant les données persistantes. |
+| `make re` | Reconstruit la stack obligatoire depuis un état propre en exécutant `down`, `clean`, puis `up`. |
+| `make clean` | Arrête la stack obligatoire, supprime les volumes Compose et efface les répertoires de données WordPress et MariaDB. |
+| `make fclean` | Exécute `clean`, puis supprime les images Docker inutilisées, les conteneurs, les réseaux et le cache de build. |
 
-Bonus stack:
+Stack bonus :
 
-| Command | Description |
+| Commande | Description |
 | --- | --- |
-| `cd bonus && make up` | Create the data directories, build the images, and start the bonus stack in detached mode. |
-| `cd bonus && make down` | Stop and remove the bonus stack containers while keeping persistent data. |
-| `cd bonus && make re` | Rebuild the bonus stack from a clean state by running `down`, `clean`, then `up`. |
-| `cd bonus && make clean` | Stop the bonus stack, remove Compose volumes, and delete WordPress and MariaDB data directories. |
-| `cd bonus && make fclean` | Run `clean`, then remove unused Docker images, containers, networks, and build cache. |
+| `cd bonus && make up` | Crée les répertoires de données, construit les images et démarre la stack bonus en mode détaché. |
+| `cd bonus && make down` | Arrête et supprime les conteneurs de la stack bonus tout en conservant les données persistantes. |
+| `cd bonus && make re` | Reconstruit la stack bonus depuis un état propre en exécutant `down`, `clean`, puis `up`. |
+| `cd bonus && make clean` | Arrête la stack bonus, supprime les volumes Compose et efface les répertoires de données WordPress et MariaDB. |
+| `cd bonus && make fclean` | Exécute `clean`, puis supprime les images Docker inutilisées, les conteneurs, les réseaux et le cache de build. |
 
-## Access
+## Accès
 
 | URL | Description |
 | --- | --- |
-| `https://jmougel.local` | Main WordPress application served over HTTPS. |
-| `https://jmougel2.local` | Bonus static website. |
-| `https://jmougel.local/adminer/` | Bonus Adminer interface for database administration. |
-| `ftp://jmougel.local` | Bonus FTP endpoint for accessing WordPress files. |
+| `https://jmougel.local` | Application WordPress principale servie en HTTPS. |
+| `https://jmougel2.local` | Site statique bonus. |
+| `https://jmougel.local/adminer/` | Interface Adminer bonus pour l’administration de la base de données. |
+| `ftp://jmougel.local` | Point d’accès FTP bonus pour accéder aux fichiers WordPress. |
 
-### Credentials
+### Identifiants
 
-Credentials are defined in the active `.env` file:
+Les identifiants sont définis dans le fichier `.env` actif :
 
-- **WordPress admin:** `jmougel` / `MARIADB_ROOT_PASSWORD`
-- **WordPress author:** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
-- **MariaDB user:** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
-- **MariaDB root:** `root` / `MARIADB_ROOT_PASSWORD`
-- **FTP bonus user:** `FTP_USER` / `FTP_PASS`
+- **Administrateur WordPress :** `jmougel` / `MARIADB_ROOT_PASSWORD`
+- **Auteur WordPress :** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
+- **Utilisateur MariaDB :** `MARIADB_USER` / `MARIADB_USER_PASSWORD`
+- **Root MariaDB :** `root` / `MARIADB_ROOT_PASSWORD`
+- **Utilisateur FTP bonus :** `FTP_USER` / `FTP_PASS`
 
 ## Validation
 
-Render the Compose configuration:
+Afficher la configuration Compose :
 
 ```bash
 docker compose -f srcs/docker-compose.yml config
 docker compose -f bonus/srcs/docker-compose.yml config
 ```
 
-Check running services:
+Vérifier les services en cours d’exécution :
 
 ```bash
 sudo docker compose -f srcs/docker-compose.yml ps
 sudo docker compose -f bonus/srcs/docker-compose.yml ps
 ```
 
-Check web access:
+Vérifier l’accès web :
 
 ```bash
 curl -kI https://jmougel.local
@@ -165,52 +167,52 @@ curl -kI https://jmougel.local/adminer/
 curl -kI https://jmougel2.local
 ```
 
-Expected result:
+Résultat attendu :
 
-- Nginx listens on `443`.
-- WordPress loads through HTTPS.
-- WordPress can connect to MariaDB.
-- Data remains after `make down` and `make up`.
-- Bonus services start and are reachable through their documented ports or routes.
+- Nginx écoute sur le port `443`.
+- WordPress se charge via HTTPS.
+- WordPress peut se connecter à MariaDB.
+- Les données restent présentes après `make down` puis `make up`.
+- Les services bonus démarrent et sont accessibles via leurs ports ou routes documentés.
 
 ## Architecture
 
-Mandatory stack:
+Stack obligatoire :
 
 ```mermaid
 flowchart LR
-    Browser["Browser<br/>https://jmougel.local"] --> Nginx["nginx<br/>443"]
+    Browser["Navigateur<br/>https://jmougel.local"] --> Nginx["nginx<br/>443"]
     Nginx --> WordPress["wordpress<br/>php-fpm:9000"]
     WordPress --> MariaDB["mariadb<br/>3306"]
-    WordPress --> WPVolume["wordpress volume<br/>/inception/data/wp"]
-    MariaDB --> DBVolume["mariadb volume<br/>/inception/data/db"]
+    WordPress --> WPVolume["volume wordpress<br/>/inception/data/wp"]
+    MariaDB --> DBVolume["volume mariadb<br/>/inception/data/db"]
 ```
 
-Bonus stack:
+Stack bonus :
 
 ```mermaid
 flowchart LR
-    Browser["Browser"] --> Nginx["nginx<br/>443"]
+    Browser["Navigateur"] --> Nginx["nginx<br/>443"]
     Nginx --> WordPress["wordpress<br/>php-fpm:9000"]
     Nginx --> Adminer["adminer<br/>php-fpm:9000"]
-    Nginx --> StaticSite["static site<br/>jmougel2.local"]
+    Nginx --> StaticSite["site statique<br/>jmougel2.local"]
     WordPress --> MariaDB["mariadb<br/>3306"]
     WordPress --> Redis["redis<br/>6379"]
-    FTPClient["FTP client"] --> FTP["vsftpd<br/>20, 21, 65500-65515"]
-    FTP --> WPVolume["wordpress volume"]
+    FTPClient["Client FTP"] --> FTP["vsftpd<br/>20, 21, 65500-65515"]
+    FTP --> WPVolume["volume wordpress"]
     Fail2ban["fail2ban"] --> FTPLogs["/var/log/vsftpd/vsftpd.log"]
 ```
 
 ## Notes
 
-- Browsers will warn about the certificate because it is self-signed.
-- `make clean` removes `/inception/data/wp` and `/inception/data/db`.
-- `make fclean` also runs `docker system prune -af`.
-- If `jmougel.local` does not resolve, check `/etc/hosts`.
-- If port `443` is already in use, stop the conflicting service before starting this stack.
-- If Nginx returns a gateway timeout, check the `wordpress` container and PHP-FPM port `9000`.
+- Les navigateurs afficheront un avertissement concernant le certificat car il est auto-signé.
+- `make clean` supprime `/inception/data/wp` et `/inception/data/db`.
+- `make fclean` exécute aussi `docker system prune -af`.
+- Si `jmougel.local` ne se résout pas, vérifie `/etc/hosts`.
+- Si le port `443` est déjà utilisé, arrête le service en conflit avant de démarrer cette stack.
+- Si Nginx retourne un gateway timeout, vérifie le conteneur `wordpress` et le port PHP-FPM `9000`.
 
-## Project Structure
+## Structure du projet
 
 ```text
 .
@@ -240,28 +242,28 @@ flowchart LR
             `-- wordpress
 ```
 
-## Resources
+## Ressources
 
-- [Docker documentation](https://docs.docker.com/)
-- [Docker Compose documentation](https://docs.docker.com/compose/)
-- [Nginx documentation](https://nginx.org/en/docs/)
-- [WordPress documentation](https://wordpress.org/documentation/)
-- [WP-CLI documentation](https://wp-cli.org/)
-- [MariaDB documentation](https://mariadb.org/documentation/)
-- [Redis documentation](https://redis.io/docs/latest/)
-- [Adminer documentation](https://www.adminer.org/)
-- [vsftpd project page](https://security.appspot.com/vsftpd.html)
-- [Fail2ban documentation](https://www.fail2ban.org/wiki/index.php/Main_Page)
+- [Documentation Docker](https://docs.docker.com/)
+- [Documentation Docker Compose](https://docs.docker.com/compose/)
+- [Documentation Nginx](https://nginx.org/en/docs/)
+- [Documentation WordPress](https://wordpress.org/documentation/)
+- [Documentation WP-CLI](https://wp-cli.org/)
+- [Documentation MariaDB](https://mariadb.org/documentation/)
+- [Documentation Redis](https://redis.io/docs/latest/)
+- [Documentation Adminer](https://www.adminer.org/)
+- [Page du projet vsftpd](https://security.appspot.com/vsftpd.html)
+- [Documentation Fail2ban](https://www.fail2ban.org/wiki/index.php/Main_Page)
 
-## AI Usage
+## Utilisation de l’IA
 
-AI assistance was used to improve documentation structure, clarity, and troubleshooting coverage. Commands, services, paths, and access points were checked against the repository files.
+Une assistance par IA a été utilisée pour améliorer la structure de la documentation, sa clarté et la couverture du dépannage. Les commandes, services, chemins et points d’accès ont été vérifiés par rapport aux fichiers du dépôt.
 
-## Author
+## Auteur
 
-- **Login:** jmougel
-- **GitHub:** [jasonmgl](https://github.com/jasonmgl)
+- **Login :** jmougel
+- **GitHub :** [jasonmgl](https://github.com/jasonmgl)
 
-## License
+## Licence
 
-This project is for educational purposes.
+Ce projet est réalisé à des fins éducatives.
