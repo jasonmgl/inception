@@ -1,7 +1,7 @@
 # Documentation Développeur
 
 
-[Retour](../README.md)
+[Retour](./README.md)
 
 Ce document explique comment configurer, construire, lancer, inspecter et maintenir le projet Inception en tant que développeur.
 
@@ -375,4 +375,4 @@ Conflit de port :
 - Exécutez `make clean` ou `make re`.
 - Vérifiez que `/inception/data/wp` et `/inception/data/db` ont bien été supprimés.
 
-[Retour](../README.md)
+[Retour](./README.md)
