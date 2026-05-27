@@ -1,7 +1,7 @@
 # Developer Documentation
 
 
-[Back](../README_EN.md)
+[Back](./README_EN.md)
 
 This document explains how to set up, build, launch, inspect, and maintain the Inception project as a developer.
 
@@ -375,4 +375,4 @@ Stale volume state:
 - Run `make clean` or `make re`.
 - Confirm `/inception/data/wp` and `/inception/data/db` were removed.
 
-[Back](../README_EN.md)
+[Back](./README_EN.md)
