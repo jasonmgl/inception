@@ -18,8 +18,8 @@ The bonus stack extends the project with Redis caching, Adminer, FTP access, Fai
 
 ## Documentation
 
-- [USER_DOC.md](./USER_DOC_EN.md): user and administrator guide for running, accessing, and checking the stack.
-- [DEV_DOC.md](./DEV_DOC_EN.md): developer guide for environment setup, builds, Docker Compose commands, volumes, and persistence.
+- [USER_DOC_EN.md](./USER_DOC_EN.md): user and administrator guide for running, accessing, and checking the stack.
+- [DEV_DOC_EN.md](./DEV_DOC_EN.md): developer guide for environment setup, builds, Docker Compose commands, volumes, and persistence.
 
 ## Objectives
 
