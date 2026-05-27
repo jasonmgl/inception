@@ -4,7 +4,7 @@
 
 ## Description
 
-*[README_EN.md](./README_EN.md) : an english version is available here.*
+*[an english version is available here.](./README_EN.md)*
 
 Inception est un projet d’infrastructure basé sur Docker Compose qui déploie une stack WordPress complète à partir d’images Debian personnalisées. Le projet a été conçu pour montrer comment des services proches d’un environnement de production s’assemblent : un reverse proxy HTTPS, un environnement d’exécution PHP pour l’application, une base de données, des volumes persistants, un réseau de services et une initialisation automatisée.
 
