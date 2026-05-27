@@ -3,6 +3,7 @@
 *This project was created as part of the 42 curriculum by jmougel.*
 
 ## Description
+*[une version française est disponible ici](./README.md)*
 
 Inception is a Docker Compose infrastructure project that deploys a complete WordPress stack from custom Debian-based images. The project is built to show how production-style services fit together: an HTTPS reverse proxy, a PHP application runtime, a database, persistent volumes, service networking, and automated initialization.
 
@@ -18,8 +19,8 @@ The bonus stack extends the project with Redis caching, Adminer, FTP access, Fai
 
 ## Documentation
 
-- [USER_DOC.md](./USER_DOC_EN.md): user and administrator guide for running, accessing, and checking the stack.
-- [DEV_DOC.md](./DEV_DOC_EN.md): developer guide for environment setup, builds, Docker Compose commands, volumes, and persistence.
+- [USER_DOC.md](./USER_DOC.md): user and administrator guide for running, accessing, and checking the stack.
+- [DEV_DOC.md](./DEV_DOC.md): developer guide for environment setup, builds, Docker Compose commands, volumes, and persistence.
 
 ## Objectives
 
